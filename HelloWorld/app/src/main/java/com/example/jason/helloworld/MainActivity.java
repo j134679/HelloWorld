@@ -3,36 +3,36 @@ package com.example.jason.helloworld;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-
-    private Button answerYesButton, answerNoButton;
-    private EditText usersNameEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        answerYesButton = findViewById(R.id.answer_yes_button);
-        answerNoButton = findViewById(R.id.answer_no_button);
-        usersNameEditText = findViewById(R.id.users_name_edit_text);
+        String[] favoriteTVShows = {"Pushing Daisies", "Better Off Ted",
+                "Twin Peaks", "Freaks and Geeks", "Orphan Black", "Walking Dead",
+                "Breaking Bad", "The 400", "Alphas", "Life on Mars"};
 
-    }
+        ListAdapter theAdapter = new MyAdapter(this, favoriteTVShows);
+        ListView theListView = findViewById(R.id.theListView);
+        theListView.setAdapter(theAdapter);
+        theListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String tvShowPicked = "You Selected " + String.valueOf(adapterView.getItemAtPosition(i));
+                Toast.makeText(MainActivity.this, tvShowPicked, Toast.LENGTH_SHORT).show();
+            }
+        });
 
-    public void onYesButtonClick(View view) {
-        String usersName = String.valueOf(usersNameEditText.getText());
-        String yourYesResponse = "That is great! " + usersName;
-        Toast.makeText(this, yourYesResponse, Toast.LENGTH_SHORT).show();
-    }
-
-    public void onNoButtonClick(View view) {
-        String usersName = String.valueOf(usersNameEditText.getText());
-        String yourNoResponse = "Too Bad.. " + usersName;
-        Toast.makeText(this, yourNoResponse, Toast.LENGTH_LONG).show();
     }
 }
